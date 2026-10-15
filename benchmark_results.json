@@ -1,0 +1,209 @@
+{
+  "metadata": {
+    "timestamp": "2026-10-15T15:20:48.961536Z",
+    "platform": "windows",
+    "dartVersion": "3.13.4 (stable) (Tue Sep 15 01:01:15 2026 -0700) on \"windows_x64\"",
+    "charsPerTokenRatio": 3.8
+  },
+  "aggregate": {
+    "totalScenarios": 8,
+    "totalRawTokens": 45669,
+    "totalSanitizedTokens": 1405,
+    "totalTokensSaved": 44264,
+    "overallTokenReductionPct": 96.92
+  },
+  "results": [
+    {
+      "scenarioName": "RenderFlex Overflow (400-line box tree)",
+      "category": "test",
+      "raw": {
+        "characters": 27166,
+        "lines": 401,
+        "tokens": 7149
+      },
+      "sanitized": {
+        "characters": 315,
+        "lines": 13,
+        "tokens": 83
+      },
+      "reduction": {
+        "charReductionPct": 98.84,
+        "lineReductionPct": 96.76,
+        "tokenReductionPct": 98.84,
+        "tokensSaved": 7066
+      },
+      "processingTimeMicroseconds": 26356,
+      "processingTimeMs": 26.356,
+      "guardrailTriggered": null,
+      "consecutiveFailures": 0
+    },
+    {
+      "scenarioName": "Unbounded Viewport Constraints (ListView in Column)",
+      "category": "test",
+      "raw": {
+        "characters": 25982,
+        "lines": 382,
+        "tokens": 6838
+      },
+      "sanitized": {
+        "characters": 501,
+        "lines": 13,
+        "tokens": 132
+      },
+      "reduction": {
+        "charReductionPct": 98.07,
+        "lineReductionPct": 96.6,
+        "tokenReductionPct": 98.07,
+        "tokensSaved": 6706
+      },
+      "processingTimeMicroseconds": 12974,
+      "processingTimeMs": 12.974,
+      "guardrailTriggered": null,
+      "consecutiveFailures": 0
+    },
+    {
+      "scenarioName": "Unit Test Assertion Failure (Framework Stack Dump)",
+      "category": "test",
+      "raw": {
+        "characters": 13098,
+        "lines": 193,
+        "tokens": 3447
+      },
+      "sanitized": {
+        "characters": 395,
+        "lines": 13,
+        "tokens": 104
+      },
+      "reduction": {
+        "charReductionPct": 96.98,
+        "lineReductionPct": 93.26,
+        "tokenReductionPct": 96.98,
+        "tokensSaved": 3343
+      },
+      "processingTimeMicroseconds": 6127,
+      "processingTimeMs": 6.127,
+      "guardrailTriggered": null,
+      "consecutiveFailures": 0
+    },
+    {
+      "scenarioName": "pumpAndSettle Timed Out (Infinite Animation)",
+      "category": "test",
+      "raw": {
+        "characters": 15463,
+        "lines": 197,
+        "tokens": 4070
+      },
+      "sanitized": {
+        "characters": 323,
+        "lines": 13,
+        "tokens": 85
+      },
+      "reduction": {
+        "charReductionPct": 97.91,
+        "lineReductionPct": 93.4,
+        "tokenReductionPct": 97.91,
+        "tokensSaved": 3985
+      },
+      "processingTimeMicroseconds": 1124,
+      "processingTimeMs": 1.124,
+      "guardrailTriggered": null,
+      "consecutiveFailures": 0
+    },
+    {
+      "scenarioName": "flutter analyze (50 cascaded diagnostics)",
+      "category": "analyze",
+      "raw": {
+        "characters": 10325,
+        "lines": 52,
+        "tokens": 2718
+      },
+      "sanitized": {
+        "characters": 972,
+        "lines": 6,
+        "tokens": 256
+      },
+      "reduction": {
+        "charReductionPct": 90.59,
+        "lineReductionPct": 88.46,
+        "tokenReductionPct": 90.58,
+        "tokensSaved": 2462
+      },
+      "processingTimeMicroseconds": 11654,
+      "processingTimeMs": 11.654,
+      "guardrailTriggered": null,
+      "consecutiveFailures": 0
+    },
+    {
+      "scenarioName": "LoopBreaker Doom Loop - Attempt #1",
+      "category": "guardrail",
+      "raw": {
+        "characters": 27166,
+        "lines": 401,
+        "tokens": 7149
+      },
+      "sanitized": {
+        "characters": 315,
+        "lines": 13,
+        "tokens": 83
+      },
+      "reduction": {
+        "charReductionPct": 98.84,
+        "lineReductionPct": 96.76,
+        "tokenReductionPct": 98.84,
+        "tokensSaved": 7066
+      },
+      "processingTimeMicroseconds": 12926,
+      "processingTimeMs": 12.926,
+      "guardrailTriggered": "NORMAL",
+      "consecutiveFailures": 1
+    },
+    {
+      "scenarioName": "LoopBreaker Doom Loop - Attempt #2",
+      "category": "guardrail",
+      "raw": {
+        "characters": 27166,
+        "lines": 401,
+        "tokens": 7149
+      },
+      "sanitized": {
+        "characters": 1111,
+        "lines": 29,
+        "tokens": 293
+      },
+      "reduction": {
+        "charReductionPct": 95.91,
+        "lineReductionPct": 92.77,
+        "tokenReductionPct": 95.9,
+        "tokensSaved": 6856
+      },
+      "processingTimeMicroseconds": 735,
+      "processingTimeMs": 0.735,
+      "guardrailTriggered": "GUARDRAIL_WARNING (Directive Injected)",
+      "consecutiveFailures": 2
+    },
+    {
+      "scenarioName": "LoopBreaker Doom Loop - Attempt #3",
+      "category": "guardrail",
+      "raw": {
+        "characters": 27166,
+        "lines": 401,
+        "tokens": 7149
+      },
+      "sanitized": {
+        "characters": 1400,
+        "lines": 33,
+        "tokens": 369
+      },
+      "reduction": {
+        "charReductionPct": 94.85,
+        "lineReductionPct": 91.77,
+        "tokenReductionPct": 94.84,
+        "tokensSaved": 6780
+      },
+      "processingTimeMicroseconds": 177,
+      "processingTimeMs": 0.177,
+      "guardrailTriggered": "CIRCUIT_BREAKER_TRIPPED (Halt Edit)",
+      "consecutiveFailures": 3
+    }
+  ]
+}
