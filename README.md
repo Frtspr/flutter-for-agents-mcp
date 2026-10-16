@@ -12,6 +12,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/Frtspr/flutter-sanity-mcp/pulls)
 
+<p align="center">
+  <img src="assets/flutter_sanity_demo.gif" alt="flutter-sanity-mcp Split Screen Benchmark Demo" width="100%">
+</p>
+
 ---
 
 ## 💥 The Problem: The Flutter AI "Doom Loop"
