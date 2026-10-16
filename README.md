@@ -3,10 +3,13 @@
 > **Stop AI Agent Doom-Loops. Cut 95% of Flutter Test & Analyze Token Noise.**  
 > High-density Model Context Protocol (MCP) server for Cursor, Claude Code, Antigravity, VS Code Copilot, and Windsurf.
 
-[![Dart](https://img.shields.io/badge/Dart-3.5+-0175C2.svg?logo=dart)](https://dart.dev)
-[![MCP](https://img.shields.io/badge/MCP-Protocol%202024--11--05-blue.svg)](https://modelcontextprotocol.io)
-[![Tests](https://img.shields.io/badge/Tests-60%2F60%20Passing-brightgreen.svg)](https://github.com/flutter-sanity/flutter-sanity-mcp)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Dart](https://img.shields.io/badge/Dart-3.5+-0175C2.svg?logo=dart&style=flat-square)](https://dart.dev)
+[![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B.svg?logo=flutter&style=flat-square)](https://flutter.dev)
+[![MCP Protocol](https://img.shields.io/badge/MCP-2024--11--05-blue.svg?style=flat-square)](https://modelcontextprotocol.io)
+[![Tests](https://img.shields.io/badge/Tests-60%2F60%20Passing-brightgreen.svg?style=flat-square)](https://github.com/Frtspr/flutter-sanity-mcp)
+[![Token Savings](https://img.shields.io/badge/Token%20Savings-96.8%25-success.svg?style=flat-square)](#-empirical-benchmark--doom-loop-prevention)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/Frtspr/flutter-sanity-mcp/pulls)
 
 ---
 

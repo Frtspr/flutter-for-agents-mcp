@@ -1,0 +1,40 @@
+name: 🐛 Bug Report
+description: Report an issue or unexpected behavior in flutter-sanity-mcp
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve `flutter-sanity-mcp`! Please fill out the form below.
+  - type: input
+    id: environment
+    attributes:
+      label: Environment & Tools
+      description: What AI editor and SDK version are you using? (e.g. Cursor 0.45, Claude Code, Flutter 3.29, Windows/macOS)
+      placeholder: e.g. Cursor on macOS, Flutter 3.27.1
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the problem. Did an agent doom loop? Did a stack frame leak?
+      placeholder: Tell us what went wrong...
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction Steps
+      description: How can we reproduce this?
+      value: |
+        1. Run `flutter test` via MCP tool `run_smart_test`
+        2. Encountered error ...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: MCP Logs / Output
+      description: Paste any sanitized JSON output or raw terminal logs if available.
+      render: json
