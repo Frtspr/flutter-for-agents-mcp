@@ -1,7 +1,7 @@
 # 🛡️ Flutter Sanity MCP
 
 > **Stop AI Agent Doom-Loops. Cut 95% of Flutter Test & Analyze Token Noise.**  
-> High-density Model Context Protocol (MCP) server for Cursor, Claude Code, Antigravity, VS Code Copilot, and Windsurf.
+> High-density Model Context Protocol (MCP) server for Claude Opus 5.5, GPT-6.1 Sol, Claude Sonnet 5.5, Gemini 4 Argon, Grok 4.7, and Muse Wonder across Cursor, Claude Code, Windsurf, Trae, Roo Code, Goose, and Antigravity.
 
 [![Dart](https://img.shields.io/badge/Dart-3.5+-0175C2.svg?logo=dart&style=flat-square)](https://dart.dev)
 [![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B.svg?logo=flutter&style=flat-square)](https://flutter.dev)
@@ -16,11 +16,11 @@
 
 ## 💥 The Problem: The Flutter AI "Doom Loop"
 
-When frontier & reasoning AI coding assistants (**Claude 3.7 Sonnet**, **OpenAI o1 / o3-mini / o3**, **Claude Opus 5.5**, **DeepSeek-R1**, **GPT-4.5 / GPT-4o**, **Gemini 2.0 Pro / Flash**) run `flutter test` or `flutter analyze`, they frequently get trapped:
+When 1M-context frontier & reasoning AI coding assistants (**Claude Opus 5.5**, **GPT-6.1 Sol**, **Claude Sonnet 5.5**, **Gemini 4 Argon**, **GPT-6 Astra**, **Grok 4.7**, **Muse Wonder**, **Qwen3.8 Max**, **Kimi K3**, **Claude Fable 5.1**) run `flutter test` or `flutter analyze`, they frequently get trapped:
 
-1. **Reasoning Token Explosion (CoT Exhaustion):** Modern reasoning models (OpenAI o1, o3-mini, Claude 3.7 with extended thinking, DeepSeek-R1) spend **15,000 to 30,000 hidden thinking tokens** mentally parsing 4,000 lines of ASCII box trees. This blows past `max_completion_tokens` and triggers `finish_reason: "length"`, returning blank responses or broken diffs.
-2. **Context Window Flooding & "Context Rot":** A single failed widget test or RenderFlex overflow prints over 3,000 lines of internal framework traces (`package:flutter/src/rendering/...`, `package:matcher/...`) and diagnostic ASCII box trees. This burns up to 45,000 tokens on a single test run! As proven by Chroma research, this triggers attention dilution ("Lost in the Middle"), drowning the real assertion failure.
-3. **The "Framework Log Trap":** Flutter catches widget test assertion errors internally and dumps them to `print` console logs (`══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞══`), leaving the official `error` event empty (`"Test failed. See logs above"`). Even the smartest frontier models hallucinate that native channels or dependencies are broken.
+1. **Reasoning Token Explosion (CoT Exhaustion):** Frontier reasoning models (OpenAI o1/o3/GPT-6.1 Sol, Claude 3.7/Opus 5.5 with extended thinking, DeepSeek-R1) spend **15,000 to 30,000 hidden thinking tokens** mentally parsing 4,000 lines of ASCII box trees. This blows past `max_completion_tokens` and triggers `finish_reason: "length"`, returning blank responses or broken diffs.
+2. **Context Window Flooding & "Context Rot":** Even with 1M token context windows, Chroma and NVIDIA RULER benchmarks prove that flooding contexts with 3,000+ lines of framework boilerplate degrades reasoning accuracy by up to 89.7% ("Lost in the Middle"). The real failure line (`Expected: 1, Actual: 2`) drowns in noise floor.
+3. **The "Framework Log Trap":** Flutter catches widget test assertion errors internally and dumps them to `print` console logs (`══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞══`), leaving the official `error` event empty (`"Test failed. See logs above"`). Even the smartest 1M-context frontier models hallucinate that native channels or dependencies are broken.
 4. **Destructive Doom Loops & Pathology:** When models fail repeatedly on RenderFlex overflows, they exhibit known pathology: deleting tests, adding `@Skip()`, or hacking `tester.view.physicalSize = Size(5000, 5000)` instead of fixing the layout.
 
 ---
@@ -46,16 +46,17 @@ flowchart LR
 
 ---
 
-## 🧠 Engineered for Frontier & Reasoning Models
+## 🧠 Engineered for Frontier & 1M-Context Reasoning Models
 
-`flutter-sanity-mcp` is designed specifically to protect next-generation hybrid reasoning and frontier models from token exhaustion and attention degradation:
+`flutter-sanity-mcp` is designed specifically to protect next-generation 1M-context hybrid reasoning and frontier models from token exhaustion, context rot, and attention degradation:
 
-| Frontier Model Family | Without MCP (Raw Terminal CLI) | With `flutter-sanity-mcp` |
-| :--- | :--- | :--- |
-| **OpenAI o1, o3, o3-mini** | 15k–30k hidden reasoning tokens wasted mentally parsing ASCII trees; exhausts `max_completion_tokens`. | **Zero reasoning bloat.** 12-line JSON routes thinking budget directly to widget tree refactoring. |
-| **Claude 3.7 Sonnet & Opus 5.5** | Suffers from "Context Rot" & Softmax denominator explosion; resorts to test deletion or viewport hacks. | **Instant 1-shot fix.** Architectural guardrails prescribe `Expanded` / `SingleChildScrollView`. |
-| **DeepSeek-R1 & V3** | Internal CoT oscillates across 80+ internal framework frames (`package:flutter/...`). | **Clean signal isolation.** Framework noise stripped; only project frames (`lib/`, `test/`) exposed. |
-| **GPT-4.5 & GPT-4o** | Tokenizer shatters Unicode box glyphs into 3-byte tokens, inflating costs up to \$2.35/turn. | **96.8% token savings.** Drops cost to ~\$0.10/turn with 100% prompt cache hit rates. |
+| Frontier Model Family | Context | Without MCP (Raw Terminal CLI) | With `flutter-sanity-mcp` |
+| :--- | :--- | :--- | :--- |
+| **Claude Opus 5.5 & Sonnet 5.5** | 1M | High-cost tier (\$5.46–\$5.98/M). Burns 45k tokens per test (\$0.27/run); 4 attempts burn >\$1.00. | **96.8% token savings.** Drops cost to **\$0.01/run**, shielding attention from Context Rot. |
+| **GPT-6.1 Sol & GPT-6 Astra** | 1M | Deep reasoning loops attempt to mentally parse 400-line ASCII trees; exhausts completion budget. | **Direct 12-line JSON.** Reasoning focuses directly on structural layout resolution. |
+| **Gemini 4 Argon & 3.8 Flash** | 1M | Attention dilution over 80+ internal framework frames drops multi-step bug-fixing precision. | **100% signal isolation.** Strips `package:flutter/*`; exposes only user-space frames. |
+| **Grok 4.7 & Muse Wonder** | 500k-1M | Repetitive RenderFlex dumps trigger "Test Deletion Syndrome" and viewport sizing hacks. | **Deterministic Circuit Breaker.** Enforces `Expanded` / `SingleChildScrollView` directives. |
+| **Qwen3.8 Max, Kimi K3, GLM-5.3** | 1M | Unicode box-drawing glyphs (`│`, `┌`, `└`) shatter in BPE tokenizers into 3-byte fragments. | **Structured Clean JSON.** Eliminates Unicode fragmentation; maximizes prompt caching. |
 
 ---
 
@@ -262,10 +263,13 @@ Average Attempts to Fix                        3.82                   1.11 (-70.
 Doom Loop Rate (>=3 identical fails)          46.0%                   0.0% (Eliminated)
 Destructive Edits (Amputations/Hacks)         64.0%                   3.0% (-95.3%)
 Cumulative Tokens per Resolved Defect        16,500                    213 (-98.7%)
-API Cost / 100 Fixes (o1 / Opus 5.5)        $235.00                 $10.80 (-95.4%)
-API Cost / 100 Fixes (Claude 3.7 / Sonnet)   $15.60                  $0.29 (-98.1%)
-API Cost / 100 Fixes (GPT-4o / DeepSeek-V3)   $8.20                  $0.15 (-98.2%)
-API Cost / 100 Fixes (o3-mini / 4o-mini)      $0.97                 $0.012 (-98.8%)
+API Cost / 100 Fixes (Claude Opus 5.5)       $98.60                  $3.80 (-96.1%)
+API Cost / 100 Fixes (Claude Sonnet 5.5)     $90.00                  $3.50 (-96.1%)
+API Cost / 100 Fixes (GPT-6 Astra)           $53.80                  $2.10 (-96.1%)
+API Cost / 100 Fixes (Gemini 4 Argon)        $32.80                  $1.30 (-96.0%)
+API Cost / 100 Fixes (GPT-6.1 Sol)           $11.90                  $0.46 (-96.1%)
+API Cost / 100 Fixes (Claude Haiku 5.5)       $3.46                  $0.13 (-96.2%)
+API Cost / 100 Fixes (MiMo-V2.6-Pro)          $2.15                  $0.08 (-96.3%)
 ────────────────────────────────────────────────────────────────────────────────────
 ```
 

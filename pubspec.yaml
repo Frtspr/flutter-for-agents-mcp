@@ -1,5 +1,5 @@
 name: flutter_sanity_mcp
-description: High-density MCP server for Flutter & Dart. Intercepts flutter test & analyze, cuts 95% noise, and stops agent doom loops across frontier reasoning models.
+description: High-density MCP server for Flutter & Dart. Intercepts flutter test & analyze, cuts 95% noise, and stops agent doom loops for Claude Opus 5.5, GPT-6.1 Sol & Gemini 4.
 version: 1.0.0
 repository: https://github.com/Frtspr/flutter-sanity-mcp
 
