@@ -33,7 +33,8 @@ class WorkspaceSyncStatusCard extends StatelessWidget {
             Expanded(
               child: Text(
                 statusText,
-                style: const TextStyle(fontSize: 13.0, fontWeight: FontWeight.w500),
+                style: const TextStyle(
+                    fontSize: 13.0, fontWeight: FontWeight.w500),
               ),
             ),
             if (!isSyncing && onRetry != null)

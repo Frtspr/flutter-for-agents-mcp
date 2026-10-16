@@ -9,7 +9,8 @@ class UserProfileCard extends StatelessWidget {
     super.key,
     this.username = 'alexander_turner',
     this.email = 'alexander.turner@enterprise-cloud.internal',
-    this.bio = 'Principal Enterprise Architect & Systems Engineering Lead with over 15 years of distributed systems experience.',
+    this.bio =
+        'Principal Enterprise Architect & Systems Engineering Lead with over 15 years of distributed systems experience.',
   });
 
   @override
@@ -31,7 +32,8 @@ class UserProfileCard extends StatelessWidget {
             const SizedBox(height: 16.0),
             Text(
               username,
-              style: const TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
+              style:
+                  const TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8.0),
             Text(
@@ -40,14 +42,18 @@ class UserProfileCard extends StatelessWidget {
             ),
             const SizedBox(height: 16.0),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
               decoration: BoxDecoration(
                 color: Colors.blue.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(16.0),
               ),
               child: const Text(
                 'ENTERPRISE MEMBER',
-                style: TextStyle(fontSize: 11.0, color: Colors.blueAccent, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                    fontSize: 11.0,
+                    color: Colors.blueAccent,
+                    fontWeight: FontWeight.w600),
               ),
             ),
             const SizedBox(height: 20.0),

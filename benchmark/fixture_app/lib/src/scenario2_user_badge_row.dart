@@ -9,7 +9,8 @@ class UserTransactionBadgeRow extends StatelessWidget {
   const UserTransactionBadgeRow({
     super.key,
     this.senderName = 'Alexander Montgomery-Smith',
-    this.senderEmail = 'alexander.montgomery-smith@longcorporateorganization-enterprise.internal.corp',
+    this.senderEmail =
+        'alexander.montgomery-smith@longcorporateorganization-enterprise.internal.corp',
     this.amount = r'-$12,450.00 USD',
     this.timestamp = '2 mins ago',
   });
@@ -30,7 +31,8 @@ class UserTransactionBadgeRow extends StatelessWidget {
           CircleAvatar(
             backgroundColor: Colors.teal.shade700,
             radius: 20.0,
-            child: const Icon(Icons.account_balance_wallet, color: Colors.white, size: 20.0),
+            child: const Icon(Icons.account_balance_wallet,
+                color: Colors.white, size: 20.0),
           ),
           const SizedBox(width: 12.0),
           // Unconstrained dynamic title and email column in a Row!
@@ -40,7 +42,8 @@ class UserTransactionBadgeRow extends StatelessWidget {
             children: [
               Text(
                 senderName,
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: 14.0),
               ),
               const SizedBox(height: 2.0),
               Text(
@@ -56,7 +59,10 @@ class UserTransactionBadgeRow extends StatelessWidget {
             children: [
               Text(
                 amount,
-                style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.red, fontSize: 13.0),
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red,
+                    fontSize: 13.0),
               ),
               Text(
                 timestamp,

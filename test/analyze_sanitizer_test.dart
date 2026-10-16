@@ -5,7 +5,9 @@ import 'package:flutter_sanity_mcp/flutter_sanity_mcp.dart';
 void main() {
   group('AnalyzeSanitizer', () {
     group('Structured JSON output parsing (dart analyze --format=json)', () {
-      test('parses diagnostics with location.startLine and location.startColumn', () {
+      test(
+          'parses diagnostics with location.startLine and location.startColumn',
+          () {
         const sampleJson = '''
 {
   "version": 1,
@@ -58,7 +60,8 @@ void main() {
         expect(errorIssue.startLine, equals(10));
         expect(errorIssue.startColumn, equals(5));
         expect(errorIssue.problemMessage, equals("Undefined name 'foo'."));
-        expect(errorIssue.correctionMessage, equals("Try declaring 'foo' before using it."));
+        expect(errorIssue.correctionMessage,
+            equals("Try declaring 'foo' before using it."));
 
         final warningIssue = result.issues[1];
         expect(warningIssue.code, equals('unused_import'));
@@ -130,7 +133,8 @@ INFO|LINT|avoid_print|lib/main.dart|15|1|12|Avoid 'print' calls in production co
         expect(result.issues[0].message, equals("Undefined name 'task'"));
       });
 
-      test('safely parses escaped pipes in messages without breaking fields', () {
+      test('safely parses escaped pipes in messages without breaking fields',
+          () {
         const escapedPipeOutput =
             r'ERROR|COMPILE_TIME_ERROR|TYPE_MISMATCH|lib/api.dart|88|12|15|Expected type A \| B but found C \| D';
 
@@ -149,7 +153,8 @@ INFO|LINT|avoid_print|lib/main.dart|15|1|12|Avoid 'print' calls in production co
     });
 
     group('Anti-Context Poisoning & Truncation (Top N critical issues)', () {
-      test('groups by severity (ERROR > WARNING > INFO) and limits to top 5', () {
+      test('groups by severity (ERROR > WARNING > INFO) and limits to top 5',
+          () {
         // Build 47 diagnostics: 2 ERRORs and 45 WARNINGs
         final diagnostics = <Map<String, dynamic>>[];
 
@@ -158,7 +163,11 @@ INFO|LINT|avoid_print|lib/main.dart|15|1|12|Avoid 'print' calls in production co
           diagnostics.add({
             'code': 'warning_code_$i',
             'severity': 'WARNING',
-            'location': {'file': 'lib/file_$i.dart', 'startLine': i, 'startColumn': 1},
+            'location': {
+              'file': 'lib/file_$i.dart',
+              'startLine': i,
+              'startColumn': 1
+            },
             'problemMessage': 'Warning message $i',
           });
         }
@@ -167,14 +176,22 @@ INFO|LINT|avoid_print|lib/main.dart|15|1|12|Avoid 'print' calls in production co
         diagnostics.add({
           'code': 'critical_error_1',
           'severity': 'ERROR',
-          'location': {'file': 'lib/core.dart', 'startLine': 100, 'startColumn': 5},
+          'location': {
+            'file': 'lib/core.dart',
+            'startLine': 100,
+            'startColumn': 5
+          },
           'problemMessage': 'Fatal type mismatch',
           'correctionMessage': 'Change type to int',
         });
         diagnostics.add({
           'code': 'critical_error_2',
           'severity': 'ERROR',
-          'location': {'file': 'lib/core.dart', 'startLine': 105, 'startColumn': 8},
+          'location': {
+            'file': 'lib/core.dart',
+            'startLine': 105,
+            'startColumn': 8
+          },
           'problemMessage': 'Method not found',
         });
 
@@ -183,7 +200,11 @@ INFO|LINT|avoid_print|lib/main.dart|15|1|12|Avoid 'print' calls in production co
           diagnostics.add({
             'code': 'warning_code_$i',
             'severity': 'WARNING',
-            'location': {'file': 'lib/file_$i.dart', 'startLine': i, 'startColumn': 1},
+            'location': {
+              'file': 'lib/file_$i.dart',
+              'startLine': i,
+              'startColumn': 1
+            },
             'problemMessage': 'Warning message $i',
           });
         }
@@ -214,7 +235,8 @@ INFO|LINT|avoid_print|lib/main.dart|15|1|12|Avoid 'print' calls in production co
         expect(result.hiddenCount, equals(42));
         expect(
           result.hiddenSummary,
-          equals('... and 42 more warnings hidden to prevent context poisoning'),
+          equals(
+              '... and 42 more warnings hidden to prevent context poisoning'),
         );
       });
 
@@ -224,7 +246,11 @@ INFO|LINT|avoid_print|lib/main.dart|15|1|12|Avoid 'print' calls in production co
           (i) => {
             'code': 'code_$i',
             'severity': i == 0 ? 'ERROR' : 'WARNING',
-            'location': {'file': 'lib/test.dart', 'startLine': i + 1, 'startColumn': 1},
+            'location': {
+              'file': 'lib/test.dart',
+              'startLine': i + 1,
+              'startColumn': 1
+            },
             'problemMessage': 'Issue $i',
           },
         );
@@ -245,12 +271,17 @@ INFO|LINT|avoid_print|lib/main.dart|15|1|12|Avoid 'print' calls in production co
           {
             'code': 'unused_local_variable',
             'severity': 'INFO',
-            'location': {'file': 'lib/a.dart', 'startLine': 1, 'startColumn': 1},
+            'location': {
+              'file': 'lib/a.dart',
+              'startLine': 1,
+              'startColumn': 1
+            },
             'problemMessage': 'Local variable is unused',
           }
         ];
 
-        final result = AnalyzeSanitizer.sanitize(jsonEncode({'diagnostics': diagnostics}));
+        final result =
+            AnalyzeSanitizer.sanitize(jsonEncode({'diagnostics': diagnostics}));
         expect(result.issues.length, equals(1));
         expect(result.hiddenCount, equals(0));
         expect(result.hiddenSummary, isNull);
@@ -263,7 +294,11 @@ INFO|LINT|avoid_print|lib/main.dart|15|1|12|Avoid 'print' calls in production co
         diagnostics.add({
           'code': 'undefined_function',
           'severity': 'ERROR',
-          'location': {'file': 'lib/main.dart', 'startLine': 10, 'startColumn': 3},
+          'location': {
+            'file': 'lib/main.dart',
+            'startLine': 10,
+            'startColumn': 3
+          },
           'problemMessage': "Undefined function 'runApp'.",
           'correctionMessage': "Import 'package:flutter/material.dart'.",
         });
@@ -272,20 +307,33 @@ INFO|LINT|avoid_print|lib/main.dart|15|1|12|Avoid 'print' calls in production co
           diagnostics.add({
             'code': 'unused_import',
             'severity': 'WARNING',
-            'location': {'file': 'lib/util.dart', 'startLine': i, 'startColumn': 1},
+            'location': {
+              'file': 'lib/util.dart',
+              'startLine': i,
+              'startColumn': 1
+            },
             'problemMessage': 'Unused import $i',
           });
         }
 
-        final result = AnalyzeSanitizer.sanitize(jsonEncode({'diagnostics': diagnostics}), maxIssues: 3);
+        final result = AnalyzeSanitizer.sanitize(
+            jsonEncode({'diagnostics': diagnostics}),
+            maxIssues: 3);
         final cleanSummary = result.toCleanSummary();
 
         // Must include the error with fix
-        expect(cleanSummary, contains("[ERROR] lib/main.dart:10:3 - Undefined function 'runApp'. (undefined_function)"));
-        expect(cleanSummary, contains("Fix: Import 'package:flutter/material.dart'."));
+        expect(
+            cleanSummary,
+            contains(
+                "[ERROR] lib/main.dart:10:3 - Undefined function 'runApp'. (undefined_function)"));
+        expect(cleanSummary,
+            contains("Fix: Import 'package:flutter/material.dart'."));
 
         // Must contain the hidden count line
-        expect(cleanSummary, contains('... and 4 more warnings hidden to prevent context poisoning'));
+        expect(
+            cleanSummary,
+            contains(
+                '... and 4 more warnings hidden to prevent context poisoning'));
       });
 
       test('toCleanSummary formats clean analysis when no issues', () {
@@ -322,10 +370,12 @@ INFO|LINT|avoid_print|lib/main.dart|15|1|12|Avoid 'print' calls in production co
         expect(jsonMap['issues'], isA<List>());
         expect(jsonMap['issues'][0]['code'], equals('missing_return'));
         expect(jsonMap['issues'][0]['severity'], equals('ERROR'));
-        expect(jsonMap['issues'][0]['location']['file'], equals('lib/calc.dart'));
+        expect(
+            jsonMap['issues'][0]['location']['file'], equals('lib/calc.dart'));
         expect(jsonMap['issues'][0]['location']['startLine'], equals(25));
         expect(jsonMap['issues'][0]['location']['startColumn'], equals(1));
-        expect(jsonMap['issues'][0]['problemMessage'], equals('This function must return a value of type int.'));
+        expect(jsonMap['issues'][0]['problemMessage'],
+            equals('This function must return a value of type int.'));
 
         // Validate json serialization
         final serialized = result.toJsonString();

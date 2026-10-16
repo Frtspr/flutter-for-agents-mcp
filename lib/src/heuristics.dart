@@ -1,4 +1,3 @@
-
 /// Categories of detected Flutter / Dart test and runtime failures.
 enum FailureCategory {
   renderFlexOverflowHorizontal,
@@ -434,8 +433,7 @@ TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
     for (final match in allMatches) {
       final file = match.group(1)!;
       final line = int.tryParse(match.group(2)!) ?? 0;
-      final col =
-          match.group(3) != null ? int.tryParse(match.group(3)!) : null;
+      final col = match.group(3) != null ? int.tryParse(match.group(3)!) : null;
 
       // Skip framework internals
       if (file.contains('flutter/src/') ||

@@ -3,7 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fixture_app/src/scenario2_user_badge_row.dart';
 
 void main() {
-  testWidgets('Scenario 2: UserTransactionBadgeRow renders dynamic email without horizontal overflow', (WidgetTester tester) async {
+  testWidgets(
+      'Scenario 2: UserTransactionBadgeRow renders dynamic email without horizontal overflow',
+      (WidgetTester tester) async {
     tester.view.physicalSize = const Size(360, 640);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.resetPhysicalSize);

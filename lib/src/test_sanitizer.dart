@@ -23,16 +23,16 @@ class FlutterTestSummary {
   });
 
   Map<String, dynamic> toJson() => {
-    'success': success,
-    'passed': passed,
-    'failed': failed,
-    'errors': errors,
-    'skipped': skipped,
-    'total': total,
-    'durationMs': durationMs,
-    if (failures.isNotEmpty)
-      'failures': failures.map((f) => f.toJson()).toList(),
-  };
+        'success': success,
+        'passed': passed,
+        'failed': failed,
+        'errors': errors,
+        'skipped': skipped,
+        'total': total,
+        'durationMs': durationMs,
+        if (failures.isNotEmpty)
+          'failures': failures.map((f) => f.toJson()).toList(),
+      };
 
   /// Ultra-clean, high-density JSON summary (<15 lines) designed to prevent agent doom loops.
   String toHighDensityJson({int maxFailures = 5}) {
@@ -49,7 +49,8 @@ class FlutterTestSummary {
       final displayList = failures.take(maxFailures).toList();
       for (var i = 0; i < displayList.length; i++) {
         final f = displayList[i];
-        final isLast = i == displayList.length - 1 && failures.length <= maxFailures;
+        final isLast =
+            i == displayList.length - 1 && failures.length <= maxFailures;
         buffer.writeln('    {');
         buffer.writeln('      "test": ${jsonEncode(f.test)},');
         if (f.location != null) {
@@ -63,7 +64,8 @@ class FlutterTestSummary {
         buffer.writeln('    }${isLast ? '' : ','}');
       }
       if (failures.length > maxFailures) {
-        buffer.writeln('    {"remainingFailures": ${failures.length - maxFailures}}');
+        buffer.writeln(
+            '    {"remainingFailures": ${failures.length - maxFailures}}');
       }
       buffer.writeln('  ]');
     }
@@ -92,12 +94,12 @@ class TestFailureDetail {
   });
 
   Map<String, dynamic> toJson() => {
-    'test': test,
-    if (location != null) 'location': location,
-    if (failureType != null) 'type': failureType,
-    'error': error,
-    'stack': stack,
-  };
+        'test': test,
+        if (location != null) 'location': location,
+        if (failureType != null) 'type': failureType,
+        'error': error,
+        'stack': stack,
+      };
 }
 
 /// Stream and batch parser for `flutter test --machine` and `dart test --reporter=json`.
@@ -242,12 +244,12 @@ class FlutterTestStreamParser {
         final isFailure = event['isFailure'] as bool? ?? false;
         if (testID != null) {
           _testErrors.putIfAbsent(testID, () => []).add(
-            _ErrorEntry(
-              error: error,
-              stackTrace: stackTrace,
-              isFailure: isFailure,
-            ),
-          );
+                _ErrorEntry(
+                  error: error,
+                  stackTrace: stackTrace,
+                  isFailure: isFailure,
+                ),
+              );
         }
         break;
 
@@ -318,8 +320,7 @@ class FlutterTestStreamParser {
 
     for (final test in _tests.values) {
       final hasErrors = _testErrors.containsKey(test.id);
-      final isFailed =
-          test.result == 'failure' ||
+      final isFailed = test.result == 'failure' ||
           test.result == 'error' ||
           (!test.isCompleted && hasErrors);
 
@@ -350,8 +351,7 @@ class FlutterTestStreamParser {
     }
 
     final computedSuccess =
-        _suiteSuccess ??
-        (failures.isEmpty && _failed == 0 && _errors == 0);
+        _suiteSuccess ?? (failures.isEmpty && _failed == 0 && _errors == 0);
 
     return FlutterTestSummary(
       success: computedSuccess,
@@ -379,7 +379,8 @@ class FlutterTestStreamParser {
     // 2. Compilation failures in `loading <path>` tests
     if (test.name.startsWith('loading ') || test.hidden) {
       final rawError = errors.isNotEmpty ? errors.first.error : '';
-      final location = _extractLocationFromCompilerError(rawError) ?? _formatTestLocation(test);
+      final location = _extractLocationFromCompilerError(rawError) ??
+          _formatTestLocation(test);
       return TestFailureDetail(
         test: test.name,
         location: location,
@@ -402,16 +403,20 @@ class FlutterTestStreamParser {
         }
       }
 
-      var prunedStack = pruneStackTrace(err.stackTrace, projectName: projectName);
+      var prunedStack =
+          pruneStackTrace(err.stackTrace, projectName: projectName);
       if (prunedStack.isEmpty && prints.isNotEmpty) {
         // Fallback: stack might be in prints
-        prunedStack = pruneStackTrace(prints.join('\n'), projectName: projectName);
+        prunedStack =
+            pruneStackTrace(prints.join('\n'), projectName: projectName);
       }
 
-      final location =
-          prunedStack.isNotEmpty ? prunedStack.first : _formatTestLocation(test);
+      final location = prunedStack.isNotEmpty
+          ? prunedStack.first
+          : _formatTestLocation(test);
 
-      final failureType = cleanError.contains('Expected:') ? 'assertion' : 'error';
+      final failureType =
+          cleanError.contains('Expected:') ? 'assertion' : 'error';
 
       return TestFailureDetail(
         test: test.name,
@@ -423,11 +428,15 @@ class FlutterTestStreamParser {
     }
 
     // 4. Test finished with error/failure status but no explicit error event
-    final altError = _extractErrorFromPrints(prints) ?? 'Test failed without explicit error';
-    final prunedStack = pruneStackTrace(prints.join('\n'), projectName: projectName);
+    final altError =
+        _extractErrorFromPrints(prints) ?? 'Test failed without explicit error';
+    final prunedStack =
+        pruneStackTrace(prints.join('\n'), projectName: projectName);
     return TestFailureDetail(
       test: test.name,
-      location: prunedStack.isNotEmpty ? prunedStack.first : _formatTestLocation(test),
+      location: prunedStack.isNotEmpty
+          ? prunedStack.first
+          : _formatTestLocation(test),
       error: altError,
       stack: prunedStack,
       failureType: 'error',
@@ -443,7 +452,8 @@ class FlutterTestStreamParser {
     return null;
   }
 
-  TestFailureDetail _extractFromFrameworkBanner(_TestEntry test, String bannerText) {
+  TestFailureDetail _extractFromFrameworkBanner(
+      _TestEntry test, String bannerText) {
     // A: RenderObject / RenderFlex tree squashing
     if (bannerText.contains('overflowed by') ||
         bannerText.contains('EXCEPTION CAUGHT BY RENDERING LIBRARY') ||
@@ -454,8 +464,9 @@ class FlutterTestStreamParser {
     // B: pumpAndSettle timeout
     if (bannerText.contains('pumpAndSettle timed out')) {
       final prunedStack = _extractStackFromBanner(bannerText);
-      final location =
-          prunedStack.isNotEmpty ? prunedStack.first : _formatTestLocation(test);
+      final location = prunedStack.isNotEmpty
+          ? prunedStack.first
+          : _formatTestLocation(test);
       return TestFailureDetail(
         test: test.name,
         location: location,
@@ -474,7 +485,8 @@ class FlutterTestStreamParser {
     return TestFailureDetail(
       test: test.name,
       location: location,
-      error: diff ?? _extractExceptionHeadline(bannerText) ?? 'Assertion failure',
+      error:
+          diff ?? _extractExceptionHeadline(bannerText) ?? 'Assertion failure',
       stack: prunedStack,
       failureType: 'assertion',
     );
@@ -482,7 +494,8 @@ class FlutterTestStreamParser {
 
   /// Squashes 400 lines of RenderObject diagnostic trees down to concise constraint summaries
   /// containing component, overflow pixels, orientation, and origin file/line.
-  TestFailureDetail _squashRenderObjectTree(_TestEntry test, String bannerText) {
+  TestFailureDetail _squashRenderObjectTree(
+      _TestEntry test, String bannerText) {
     // Check for unbounded viewport / flex constraints error
     final unboundedMatch = RegExp(
       r'((?:Vertical|Horizontal)\s+viewport was given unbounded\s+(?:height|width)|RenderFlex children have non-zero flex but incoming\s+(?:height|width)\s+constraints are unbounded)',
@@ -566,9 +579,10 @@ class FlutterTestStreamParser {
     }
 
     final prunedStack = _extractStackFromBanner(bannerText);
-    final location =
-        widgetOrigin ??
-        (prunedStack.isNotEmpty ? prunedStack.first : _formatTestLocation(test));
+    final location = widgetOrigin ??
+        (prunedStack.isNotEmpty
+            ? prunedStack.first
+            : _formatTestLocation(test));
 
     final failureType = unboundedMatch != null ? 'unbounded' : 'overflow';
 
@@ -582,7 +596,8 @@ class FlutterTestStreamParser {
   }
 
   List<String> _extractStackFromBanner(String bannerText) {
-    final stackSplit = bannerText.split('When the exception was thrown, this was the stack:');
+    final stackSplit =
+        bannerText.split('When the exception was thrown, this was the stack:');
     if (stackSplit.length > 1) {
       final rawStack = stackSplit[1].split(RegExp(r'═{10,}'))[0];
       return pruneStackTrace(rawStack, projectName: projectName);
@@ -677,9 +692,13 @@ class FlutterTestStreamParser {
       final frame = _parseStackFrame(line);
       if (frame == null) continue;
 
-      if (_shouldStripFrame(frame.rawPath) || _shouldStripFrame(frame.cleanPath)) continue;
+      if (_shouldStripFrame(frame.rawPath) ||
+          _shouldStripFrame(frame.cleanPath)) {
+        continue;
+      }
 
-      if (_isProjectFrame(frame.cleanPath, frame.rawPath, projectName: projectName)) {
+      if (_isProjectFrame(frame.cleanPath, frame.rawPath,
+          projectName: projectName)) {
         final clean = frame.toCleanString();
         if (!result.contains(clean)) {
           result.add(clean);
@@ -691,7 +710,11 @@ class FlutterTestStreamParser {
     if (result.isEmpty) {
       for (var line in lines) {
         line = line.trim();
-        if (line.isEmpty || line.startsWith('═') || line == '<asynchronous suspension>') continue;
+        if (line.isEmpty ||
+            line.startsWith('═') ||
+            line == '<asynchronous suspension>') {
+          continue;
+        }
         final frame = _parseStackFrame(line);
         if (frame != null &&
             !_shouldStripFrame(frame.rawPath) &&
@@ -708,7 +731,8 @@ class FlutterTestStreamParser {
 
   static _StackFrame? _parseStackFrame(String line) {
     // Format 1: #0   Member (location:line:col)
-    final parenMatch = RegExp(r'^\s*#\d+\s+(.+?)\s+\((.+?)\)\s*$').firstMatch(line);
+    final parenMatch =
+        RegExp(r'^\s*#\d+\s+(.+?)\s+\((.+?)\)\s*$').firstMatch(line);
     if (parenMatch != null) {
       final member = parenMatch.group(1);
       final loc = parenMatch.group(2)!;
@@ -718,7 +742,8 @@ class FlutterTestStreamParser {
     // Format 2: Dart test reporter format: location line:col member
     // e.g. test/calc_test.dart 12:5 main.<closure>
     // or C:\project\test\calc_test.dart 12:5 main
-    final reporterMatch = RegExp(r'^\s*(.+?)\s+(\d+):(\d+)\s+(.*?)\s*$').firstMatch(line);
+    final reporterMatch =
+        RegExp(r'^\s*(.+?)\s+(\d+):(\d+)\s+(.*?)\s*$').firstMatch(line);
     if (reporterMatch != null) {
       final rawPath = reporterMatch.group(1)!;
       final lineNum = int.tryParse(reporterMatch.group(2)!);
@@ -741,7 +766,9 @@ class FlutterTestStreamParser {
     if (directMatch != null) {
       final rawPath = directMatch.group(1)!;
       final lineNum = int.tryParse(directMatch.group(2)!);
-      final colNum = directMatch.group(3) != null ? int.tryParse(directMatch.group(3)!) : null;
+      final colNum = directMatch.group(3) != null
+          ? int.tryParse(directMatch.group(3)!)
+          : null;
       final member = directMatch.group(4);
       return _StackFrame(
         member: member,
@@ -801,7 +828,8 @@ class FlutterTestStreamParser {
     return false;
   }
 
-  static bool _isProjectFrame(String cleanPath, String rawPath, {String? projectName}) {
+  static bool _isProjectFrame(String cleanPath, String rawPath,
+      {String? projectName}) {
     final c = cleanPath.replaceAll(r'\', '/');
     final r = rawPath.replaceAll(r'\', '/');
     if (_shouldStripFrame(c) || _shouldStripFrame(r)) return false;
@@ -816,7 +844,8 @@ class FlutterTestStreamParser {
     }
 
     if (projectName != null &&
-        (c.startsWith('package:$projectName/') || r.startsWith('package:$projectName/'))) {
+        (c.startsWith('package:$projectName/') ||
+            r.startsWith('package:$projectName/'))) {
       return true;
     }
 

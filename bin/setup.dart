@@ -32,7 +32,8 @@ void main(List<String> args) {
       'all',
       abbr: 'a',
       negatable: false,
-      help: 'Configure all supported editors (creates configs even if not pre-detected).',
+      help:
+          'Configure all supported editors (creates configs even if not pre-detected).',
     )
     ..addOption(
       'editor',
@@ -91,7 +92,8 @@ void main(List<String> args) {
   List<EditorTarget> selectedTargets;
 
   if (editorFilter != null && editorFilter.isNotEmpty) {
-    selectedTargets = resolver.findTargets(editorFilter, projectDir: projectDir);
+    selectedTargets =
+        resolver.findTargets(editorFilter, projectDir: projectDir);
     if (selectedTargets.isEmpty) {
       stderr.writeln('Error: No editor found matching "$editorFilter".');
       stderr.writeln(
@@ -105,9 +107,8 @@ void main(List<String> args) {
         .where((t) => t.scope == ConfigScope.global && t.isDetected)
         .toList();
   } else if (onlyProject) {
-    selectedTargets = allTargets
-        .where((t) => t.scope == ConfigScope.project)
-        .toList();
+    selectedTargets =
+        allTargets.where((t) => t.scope == ConfigScope.project).toList();
   } else {
     // Default: auto-detect installed global editors and existing project configs
     selectedTargets = allTargets.where((t) => t.isDetected).toList();

@@ -134,7 +134,9 @@ void main() {
       expect(vscodeProject.defaultRootKey, equals('servers'));
     });
 
-    test('detects installed editor when directory exists even if config does not', () {
+    test(
+        'detects installed editor when directory exists even if config does not',
+        () {
       final resolver = PathResolver(
         operatingSystem: 'windows',
         environment: {

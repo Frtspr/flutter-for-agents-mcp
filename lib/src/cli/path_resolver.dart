@@ -175,8 +175,7 @@ class PathResolver {
         defaultRootKey: 'mcpServers',
         scope: ConfigScope.global,
         configExists: claudeCodeGlobalExists,
-        isDetected:
-            claudeCodeGlobalExists || _directoryExists(claudeCodeDir),
+        isDetected: claudeCodeGlobalExists || _directoryExists(claudeCodeDir),
       ),
     );
 
@@ -211,8 +210,7 @@ class PathResolver {
         defaultRootKey: 'mcpServers',
         scope: ConfigScope.global,
         configExists: claudeDesktopExists,
-        isDetected:
-            claudeDesktopExists || _directoryExists(claudeDesktopDir),
+        isDetected: claudeDesktopExists || _directoryExists(claudeDesktopDir),
       ),
     );
 

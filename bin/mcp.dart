@@ -13,7 +13,8 @@ Future<void> main(List<String> args) async {
       );
 
       final server = FlutterSanityServer(channel);
-      io.stderr.writeln('[flutter-sanity-mcp] Server active and listening on stdio.');
+      io.stderr.writeln(
+          '[flutter-sanity-mcp] Server active and listening on stdio.');
       await server.done;
     },
     (error, stackTrace) {

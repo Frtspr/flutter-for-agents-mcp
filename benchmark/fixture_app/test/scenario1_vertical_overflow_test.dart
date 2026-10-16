@@ -3,7 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fixture_app/src/scenario1_profile_card.dart';
 
 void main() {
-  testWidgets('Scenario 1: UserProfileCard renders without vertical overflow', (WidgetTester tester) async {
+  testWidgets('Scenario 1: UserProfileCard renders without vertical overflow',
+      (WidgetTester tester) async {
     // Constrain viewport to realistic compact mobile screen (360x480)
     tester.view.physicalSize = const Size(360, 480);
     tester.view.devicePixelRatio = 1.0;

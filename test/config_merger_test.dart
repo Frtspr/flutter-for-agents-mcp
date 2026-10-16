@@ -154,7 +154,8 @@ void main() {
       );
     });
 
-    test('updates existing flutter-sanity-mcp definition without data loss', () {
+    test('updates existing flutter-sanity-mcp definition without data loss',
+        () {
       final existingConfig = {
         'mcpServers': {
           'flutter-sanity-mcp': {
@@ -221,7 +222,8 @@ void main() {
       expect(merged.containsKey('servers'), isFalse);
     });
 
-    test('selects preferredRootKey "servers" when config is empty (VS Code)', () {
+    test('selects preferredRootKey "servers" when config is empty (VS Code)',
+        () {
       final rootKey = ConfigMerger.resolveRootKey(
         {},
         preferredRootKey: 'servers',
@@ -237,7 +239,9 @@ void main() {
       expect(merged.containsKey('mcpServers'), isFalse);
     });
 
-    test('selects preferredRootKey "mcpServers" when config is empty (Cursor/Claude)', () {
+    test(
+        'selects preferredRootKey "mcpServers" when config is empty (Cursor/Claude)',
+        () {
       final rootKey = ConfigMerger.resolveRootKey(
         {},
         preferredRootKey: 'mcpServers',
@@ -245,7 +249,8 @@ void main() {
       expect(rootKey, equals('mcpServers'));
     });
 
-    test('defaults to "mcpServers" when no preferred key and no existing keys', () {
+    test('defaults to "mcpServers" when no preferred key and no existing keys',
+        () {
       final rootKey = ConfigMerger.resolveRootKey({});
       expect(rootKey, equals('mcpServers'));
     });
@@ -332,7 +337,8 @@ void main() {
       expect(backupFile.existsSync(), isFalse);
     });
 
-    test('detects already up-to-date configuration without redundant overwrite', () {
+    test('detects already up-to-date configuration without redundant overwrite',
+        () {
       final configFile = File(p.join(tempDir.path, 'up_to_date_mcp.json'));
       merger.mergeFile(
         filePath: configFile.path,

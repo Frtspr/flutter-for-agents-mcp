@@ -209,7 +209,8 @@ class LoopBreaker {
     HeuristicDirective? directive,
     String rawOutput = '',
   }) {
-    if (_lastFingerprint != null && _lastFingerprint!.hash == fingerprint.hash) {
+    if (_lastFingerprint != null &&
+        _lastFingerprint!.hash == fingerprint.hash) {
       _consecutiveFailures++;
     } else {
       _consecutiveFailures = 1;

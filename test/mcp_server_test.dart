@@ -5,15 +5,18 @@ import 'package:flutter_sanity_mcp/flutter_sanity_mcp.dart';
 
 void main() {
   group('FlutterSanityServer MCP Protocol', () {
-    test('Server initializes with correct metadata and registered tools', () async {
+    test('Server initializes with correct metadata and registered tools',
+        () async {
       final inController = StreamController<String>();
       final outController = StreamController<String>();
       // Drain outController so sink writes don't hang
       outController.stream.listen((_) {});
 
-      final serverChannel = StreamChannel<String>(inController.stream, outController.sink);
+      final serverChannel =
+          StreamChannel<String>(inController.stream, outController.sink);
       final customBreaker = LoopBreaker();
-      final server = FlutterSanityServer(serverChannel, loopBreaker: customBreaker);
+      final server =
+          FlutterSanityServer(serverChannel, loopBreaker: customBreaker);
 
       expect(server.implementation.name, equals('flutter-sanity-mcp'));
       expect(server.implementation.version, equals('1.0.0'));
@@ -29,7 +32,8 @@ void main() {
       final outController = StreamController<String>();
       outController.stream.listen((_) {});
 
-      final serverChannel = StreamChannel<String>(inController.stream, outController.sink);
+      final serverChannel =
+          StreamChannel<String>(inController.stream, outController.sink);
       final breaker = LoopBreaker();
       final server = FlutterSanityServer(serverChannel, loopBreaker: breaker);
 

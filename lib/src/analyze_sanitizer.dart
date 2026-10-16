@@ -76,7 +76,8 @@ class DiagnosticIssue {
   }
 
   String toFormattedString() {
-    final buffer = StringBuffer('[$severity] $file:$line:$column - $message ($code)');
+    final buffer =
+        StringBuffer('[$severity] $file:$line:$column - $message ($code)');
     if (correction != null && correction!.isNotEmpty) {
       buffer.write('\n  Fix: $correction');
     }
@@ -116,16 +117,16 @@ class AnalyzeResult {
   bool get isClean => totalIssues == 0;
 
   Map<String, dynamic> toJson() => {
-    'success': success,
-    'totalIssues': totalIssues,
-    'errorCount': errorCount,
-    'warningCount': warningCount,
-    'infoCount': infoCount,
-    'issues': issues.map((e) => e.toJson()).toList(),
-    'hiddenCount': hiddenCount,
-    if (hiddenSummary != null) 'hiddenSummary': hiddenSummary,
-    'summary': summary,
-  };
+        'success': success,
+        'totalIssues': totalIssues,
+        'errorCount': errorCount,
+        'warningCount': warningCount,
+        'infoCount': infoCount,
+        'issues': issues.map((e) => e.toJson()).toList(),
+        'hiddenCount': hiddenCount,
+        if (hiddenSummary != null) 'hiddenSummary': hiddenSummary,
+        'summary': summary,
+      };
 
   String toJsonString({bool pretty = false}) {
     if (pretty) {
@@ -141,7 +142,8 @@ class AnalyzeResult {
     }
     final buffer = StringBuffer();
     for (final issue in issues) {
-      buffer.writeln('[${issue.severity.toUpperCase()}] ${issue.file}:${issue.line}:${issue.column} - ${issue.message} (${issue.code})');
+      buffer.writeln(
+          '[${issue.severity.toUpperCase()}] ${issue.file}:${issue.line}:${issue.column} - ${issue.message} (${issue.code})');
       if (issue.correction != null && issue.correction!.isNotEmpty) {
         buffer.writeln('  Fix: ${issue.correction}');
       }
@@ -193,8 +195,10 @@ class AnalyzeSanitizer {
       });
 
     final totalIssues = sortedIssues.length;
-    final errorCount = sortedIssues.where((i) => i.severityPriority == 1).length;
-    final warningCount = sortedIssues.where((i) => i.severityPriority == 2).length;
+    final errorCount =
+        sortedIssues.where((i) => i.severityPriority == 1).length;
+    final warningCount =
+        sortedIssues.where((i) => i.severityPriority == 2).length;
     final infoCount = sortedIssues.where((i) => i.severityPriority >= 3).length;
 
     final displayedIssues = sortedIssues.take(maxIssues).toList();
@@ -211,13 +215,21 @@ class AnalyzeSanitizer {
       summaryBuffer.write('No issues found.');
     } else {
       final counts = <String>[];
-      if (errorCount > 0) counts.add('$errorCount error${errorCount == 1 ? '' : 's'}');
-      if (warningCount > 0) counts.add('$warningCount warning${warningCount == 1 ? '' : 's'}');
-      if (infoCount > 0) counts.add('$infoCount info diagnostic${infoCount == 1 ? '' : 's'}');
+      if (errorCount > 0) {
+        counts.add('$errorCount error${errorCount == 1 ? '' : 's'}');
+      }
+      if (warningCount > 0) {
+        counts.add('$warningCount warning${warningCount == 1 ? '' : 's'}');
+      }
+      if (infoCount > 0) {
+        counts.add('$infoCount info diagnostic${infoCount == 1 ? '' : 's'}');
+      }
 
-      summaryBuffer.write('Analysis found $totalIssues issue${totalIssues == 1 ? '' : 's'} (${counts.join(', ')}).');
+      summaryBuffer.write(
+          'Analysis found $totalIssues issue${totalIssues == 1 ? '' : 's'} (${counts.join(', ')}).');
       if (hiddenCount > 0) {
-        summaryBuffer.write(' Showing top $maxIssues critical issues.\n$hiddenSummary');
+        summaryBuffer
+            .write(' Showing top $maxIssues critical issues.\n$hiddenSummary');
       }
     }
 
@@ -308,11 +320,15 @@ class AnalyzeSanitizer {
       final item = diagList[i];
       if (item is! Map) continue;
 
-      final code = (item['code'] ?? item['errorCode'] ?? item['id'] ?? 'unknown').toString();
+      final code =
+          (item['code'] ?? item['errorCode'] ?? item['id'] ?? 'unknown')
+              .toString();
       final severity = (item['severity'] ?? 'INFO').toString().toUpperCase();
       final type = item['type']?.toString();
-      final message = (item['problemMessage'] ?? item['message'] ?? '').toString();
-      final correction = (item['correctionMessage'] ?? item['correction'])?.toString();
+      final message =
+          (item['problemMessage'] ?? item['message'] ?? '').toString();
+      final correction =
+          (item['correctionMessage'] ?? item['correction'])?.toString();
 
       String file = '';
       int line = 1;

@@ -20,7 +20,8 @@ void main() async {
   final estimatedRawTokens = (rawOutput.length / 3.8).round();
 
   stdout.writeln('  -> Raw Lines: $rawLines');
-  stdout.writeln('  -> Estimated Raw Context Tokens: ~$estimatedRawTokens tokens\n');
+  stdout.writeln(
+      '  -> Estimated Raw Context Tokens: ~$estimatedRawTokens tokens\n');
 
   // 2. Measure Sanitized flutter-sanity-mcp output
   stdout.writeln('[2/3] Running flutter-sanity-mcp parser...');
@@ -30,12 +31,16 @@ void main() async {
   final estimatedSanitizedTokens = (sanitizedJson.length / 3.8).round();
 
   stdout.writeln('  -> Sanitized Output Lines: $sanitizedLines');
-  stdout.writeln('  -> Estimated Sanitized Tokens: ~$estimatedSanitizedTokens tokens');
-  final reductionPercent = ((1 - (estimatedSanitizedTokens / estimatedRawTokens)) * 100).toStringAsFixed(1);
+  stdout.writeln(
+      '  -> Estimated Sanitized Tokens: ~$estimatedSanitizedTokens tokens');
+  final reductionPercent =
+      ((1 - (estimatedSanitizedTokens / estimatedRawTokens)) * 100)
+          .toStringAsFixed(1);
   stdout.writeln('  -> TOKEN REDUCTION: $reductionPercent%\n');
 
   // 3. Verify Doom Loop Circuit Breaker Trip
-  stdout.writeln('[3/3] Simulating 3 consecutive edits to verify Circuit Breaker...');
+  stdout.writeln(
+      '[3/3] Simulating 3 consecutive edits to verify Circuit Breaker...');
   final loopBreaker = LoopBreaker();
   for (var attempt = 1; attempt <= 3; attempt++) {
     final result = loopBreaker.processOutput(rawOutput);

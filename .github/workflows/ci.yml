@@ -17,8 +17,8 @@ jobs:
       - name: Install dependencies
         run: dart pub get
       - name: Verify formatting
-        run: dart format --output=none --set-exit-if-changed .
+        run: dart format --output=none --set-exit-if-changed bin lib test
       - name: Analyze project source
-        run: dart analyze --fatal-infos
+        run: dart analyze --fatal-infos bin lib test
       - name: Run tests
         run: dart test

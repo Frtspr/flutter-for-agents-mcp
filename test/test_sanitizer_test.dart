@@ -81,11 +81,14 @@ void main() {
       expect(decoded['failures'], hasLength(1));
     });
 
-    test('3. Widget test RenderFlex overflow & print banner extraction (Framework Log Trap defeated)', () {
+    test(
+        '3. Widget test RenderFlex overflow & print banner extraction (Framework Log Trap defeated)',
+        () {
       // Generate 400 lines of ASCII box tree noise that Flutter typically produces
       final asciiTreeNoise = List.generate(
         400,
-        (i) => ' │ ├──RenderParagraph#$i relayoutBoundary=up1 (text: "child $i")',
+        (i) =>
+            ' │ ├──RenderParagraph#$i relayoutBoundary=up1 (text: "child $i")',
       ).join('\n');
 
       final printBanner = [
@@ -144,10 +147,12 @@ void main() {
 
       // The generic "Test failed with 1 error." must be replaced with squashed summary!
       expect(failure.error, isNot(equals('Test failed with 1 error.')));
-      expect(failure.error, contains('RenderFlex overflowed by 42.0px on the bottom'));
+      expect(failure.error,
+          contains('RenderFlex overflowed by 42.0px on the bottom'));
       expect(failure.error, contains('(Axis.vertical)'));
       expect(failure.error, contains('Column (lib/profile_screen.dart:55:12)'));
-      expect(failure.error, contains('BoxConstraints(0.0<=w<=800.0, 0.0<=h<=600.0)'));
+      expect(failure.error,
+          contains('BoxConstraints(0.0<=w<=800.0, 0.0<=h<=600.0)'));
 
       // Location points directly to origin
       expect(failure.location, equals('lib/profile_screen.dart:55:12'));
@@ -230,7 +235,8 @@ void main() {
       final failure = summary.failures.first;
       expect(failure.failureType, equals('compilation'));
       expect(failure.location, equals('test/broken_syntax_test.dart:14:3'));
-      expect(failure.error, contains("Error: Undefined name 'nonExistentMethod'."));
+      expect(failure.error,
+          contains("Error: Undefined name 'nonExistentMethod'."));
       expect(failure.stack, isEmpty);
 
       // High density output line count
@@ -280,8 +286,12 @@ void main() {
       final failure = summary.failures.first;
       expect(failure.test, equals('login button is rendered'));
       expect(failure.failureType, equals('assertion'));
-      expect(failure.error, contains('Expected: exactly one matching candidate'));
-      expect(failure.error, contains('Actual: _TextWidgetFinder:<zero widgets with text "Submit"'));
+      expect(
+          failure.error, contains('Expected: exactly one matching candidate'));
+      expect(
+          failure.error,
+          contains(
+              'Actual: _TextWidgetFinder:<zero widgets with text "Submit"'));
       expect(failure.stack, equals(['test/login_widget_test.dart:32:7']));
       expect(failure.location, equals('test/login_widget_test.dart:32:7'));
     });
@@ -296,7 +306,8 @@ void main() {
 #5      TestCompat.run (package:test_api/src/backend/invoker.dart:200:10)
 ''';
 
-      final pruned = FlutterTestStreamParser.pruneStackTrace(rawStack, projectName: 'my_app');
+      final pruned = FlutterTestStreamParser.pruneStackTrace(rawStack,
+          projectName: 'my_app');
 
       expect(pruned, contains('package:my_app/services/api.dart:45:10'));
       expect(pruned, contains('test/unit_test.dart:50:5'));
@@ -310,8 +321,10 @@ void main() {
     test('8. Streaming feedLine parses incrementally', () {
       final parser = FlutterTestStreamParser();
       parser.feedLine('{"type":"start","time":0}');
-      parser.feedLine('{"type":"suite","suite":{"id":0,"path":"test/a_test.dart"}}');
-      parser.feedLine('{"type":"testStart","test":{"id":1,"name":"first test","suiteID":0}}');
+      parser.feedLine(
+          '{"type":"suite","suite":{"id":0,"path":"test/a_test.dart"}}');
+      parser.feedLine(
+          '{"type":"testStart","test":{"id":1,"name":"first test","suiteID":0}}');
       parser.feedLine('{"type":"testDone","testID":1,"result":"success"}');
       parser.feedLine('{"type":"done","success":true,"time":42}');
 

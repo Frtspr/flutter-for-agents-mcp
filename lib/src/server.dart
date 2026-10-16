@@ -6,7 +6,8 @@ import 'package:flutter_sanity_mcp/src/analyze_sanitizer.dart';
 import 'package:flutter_sanity_mcp/src/loop_breaker.dart';
 
 /// Production MCP Server for Flutter & Dart AI coding agents.
-base class FlutterSanityServer extends MCPServer with ToolsSupport, LoggingSupport {
+base class FlutterSanityServer extends MCPServer
+    with ToolsSupport, LoggingSupport {
   final LoopBreaker loopBreaker;
   int _testsExecuted = 0;
   int _analysesExecuted = 0;
@@ -44,7 +45,8 @@ base class FlutterSanityServer extends MCPServer with ToolsSupport, LoggingSuppo
       inputSchema: Schema.object(
         properties: {
           'path': Schema.string(
-            description: 'Target test file or folder (e.g. test/widget_test.dart). Defaults to "test".',
+            description:
+                'Target test file or folder (e.g. test/widget_test.dart). Defaults to "test".',
           ),
           'name': Schema.string(
             description: 'Filter tests by regex matching test name (--name).',
@@ -146,7 +148,8 @@ base class FlutterSanityServer extends MCPServer with ToolsSupport, LoggingSuppo
         responseBuffer.writeln(summary.toHighDensityJson());
 
         if (exitCode == -1) {
-          responseBuffer.writeln('\n[WARNING: Process timed out after $timeoutSec seconds]');
+          responseBuffer.writeln(
+              '\n[WARNING: Process timed out after $timeoutSec seconds]');
         }
 
         final rawStderr = rawStderrBuffer.toString().trim();
@@ -181,7 +184,8 @@ base class FlutterSanityServer extends MCPServer with ToolsSupport, LoggingSuppo
       inputSchema: Schema.object(
         properties: {
           'path': Schema.string(
-            description: 'Target directory or file to analyze. Defaults to current directory (".").',
+            description:
+                'Target directory or file to analyze. Defaults to current directory (".").',
           ),
           'max_issues': Schema.int(
             description: 'Maximum issues to return in detail. Defaults to 5.',

@@ -22,7 +22,8 @@ class _PreferencesThemeCardState extends State<PreferencesThemeCard> {
   Future<void> _loadPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _selectedTheme = prefs.getString('user_theme_preference') ?? 'Dark Indigo (Default)';
+      _selectedTheme =
+          prefs.getString('user_theme_preference') ?? 'Dark Indigo (Default)';
       _isLoading = false;
     });
   }

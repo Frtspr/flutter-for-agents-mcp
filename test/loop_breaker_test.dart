@@ -26,7 +26,9 @@ void main() {
       expect(LoopBreaker.quantizeLine(30), equals(30));
     });
 
-    test('fingerprint hash remains stable across slight line shifts within bucket', () {
+    test(
+        'fingerprint hash remains stable across slight line shifts within bucket',
+        () {
       final hash1 = LoopBreaker.computeFingerprintHash(
         category: 'renderFlexOverflowHorizontal',
         filePath: 'lib/src/widgets/user_row.dart',
@@ -44,7 +46,8 @@ void main() {
       expect(hash1, equals(hash2));
     });
 
-    test('fingerprint hash changes when line shift crosses bucket threshold', () {
+    test('fingerprint hash changes when line shift crosses bucket threshold',
+        () {
       final hash1 = LoopBreaker.computeFingerprintHash(
         category: 'renderFlexOverflowHorizontal',
         filePath: 'lib/src/widgets/user_row.dart',
@@ -88,7 +91,8 @@ void main() {
       expect(hashPosix, equals(hashFileUri));
     });
 
-    test('fingerprint normalizes variable pixel count in RenderFlex signatures', () {
+    test('fingerprint normalizes variable pixel count in RenderFlex signatures',
+        () {
       final sig1 = LoopBreaker.normalizeSignature(
         'A RenderFlex overflowed by 24.0 pixels on the right.',
       );
@@ -96,8 +100,10 @@ void main() {
         'A RenderFlex overflowed by 38.5 pixels on the right.',
       );
 
-      expect(sig1, equals('a renderflex overflowed by [px] pixels on the right.'));
-      expect(sig2, equals('a renderflex overflowed by [px] pixels on the right.'));
+      expect(
+          sig1, equals('a renderflex overflowed by [px] pixels on the right.'));
+      expect(
+          sig2, equals('a renderflex overflowed by [px] pixels on the right.'));
       expect(sig1, equals(sig2));
 
       final hash1 = LoopBreaker.computeFingerprintHash(
@@ -117,7 +123,9 @@ void main() {
     });
   });
 
-  group('Consecutive Failure Escalation (Normal -> Guardrail -> Circuit Breaker)', () {
+  group(
+      'Consecutive Failure Escalation (Normal -> Guardrail -> Circuit Breaker)',
+      () {
     late LoopBreaker breaker;
     late FailureFingerprint testFingerprint;
 
@@ -153,7 +161,9 @@ void main() {
       expect(breaker.consecutiveFailures, equals(1));
     });
 
-    test('2nd consecutive match: injects GUARDRAIL_WARNING with heuristic directive', () {
+    test(
+        '2nd consecutive match: injects GUARDRAIL_WARNING with heuristic directive',
+        () {
       final directive = Heuristics.renderFlexVertical();
 
       // 1st failure
@@ -178,7 +188,8 @@ void main() {
 
       expect(decision2.banner, isNotNull);
       expect(decision2.banner, contains('[GUARDRAIL_WARNING]'));
-      expect(decision2.banner, contains('Repeated failure detected (attempt #2)'));
+      expect(
+          decision2.banner, contains('Repeated failure detected (attempt #2)'));
       expect(decision2.banner, contains(testFingerprint.hash));
       expect(decision2.banner, contains('SingleChildScrollView'));
 
@@ -187,7 +198,9 @@ void main() {
       expect(breaker.isGuardrail, isTrue);
     });
 
-    test('3rd consecutive match: trips CIRCUIT_BREAKER_TRIPPED with strict stop instructions', () {
+    test(
+        '3rd consecutive match: trips CIRCUIT_BREAKER_TRIPPED with strict stop instructions',
+        () {
       final directive = Heuristics.renderFlexVertical();
 
       // 1st failure
@@ -209,9 +222,13 @@ void main() {
 
       expect(decision3.banner, isNotNull);
       expect(decision3.banner, contains('[CIRCUIT_BREAKER_TRIPPED]'));
-      expect(decision3.banner, contains('Circuit breaker tripped! 3 consecutive identical failures.'));
+      expect(
+          decision3.banner,
+          contains(
+              'Circuit breaker tripped! 3 consecutive identical failures.'));
       expect(decision3.banner, contains('STRICT STOP-EDITING INSTRUCTIONS:'));
-      expect(decision3.banner, contains('STOP making blind code modifications'));
+      expect(
+          decision3.banner, contains('STOP making blind code modifications'));
       expect(decision3.banner, contains('DO NOT retry the previous edit'));
 
       expect(decision3.formattedOutput, contains('[CIRCUIT_BREAKER_TRIPPED]'));
@@ -222,7 +239,8 @@ void main() {
       final directive = Heuristics.renderFlexVertical();
 
       for (var i = 1; i <= 5; i++) {
-        breaker.recordFailure(fingerprint: testFingerprint, directive: directive);
+        breaker.recordFailure(
+            fingerprint: testFingerprint, directive: directive);
       }
 
       expect(breaker.currentLevel, equals(BreakerLevel.circuitBreakerTripped));
@@ -317,7 +335,9 @@ void main() {
   });
 
   group('Heuristic Directives Detection & Selection', () {
-    test('detects Horizontal RenderFlex overflow in Row with actionable directives', () {
+    test(
+        'detects Horizontal RenderFlex overflow in Row with actionable directives',
+        () {
       const output = '''
 ══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY ╞═════════════════════════════════════════════════════════
 The following assertion was thrown during layout:
@@ -330,14 +350,17 @@ The relevant error-causing widget was:
       final directive = Heuristics.detect(output);
 
       expect(directive, isNotNull);
-      expect(directive!.category, equals(FailureCategory.renderFlexOverflowHorizontal));
+      expect(directive!.category,
+          equals(FailureCategory.renderFlexOverflowHorizontal));
       expect(directive.title, equals('RenderFlex Horizontal Overflow'));
       expect(
-        directive.actionableFixes.any((fix) => fix.contains('Expanded') || fix.contains('Flexible')),
+        directive.actionableFixes
+            .any((fix) => fix.contains('Expanded') || fix.contains('Flexible')),
         isTrue,
       );
       expect(
-        directive.actionableFixes.any((fix) => fix.contains('SingleChildScrollView')),
+        directive.actionableFixes
+            .any((fix) => fix.contains('SingleChildScrollView')),
         isTrue,
       );
       expect(
@@ -347,7 +370,9 @@ The relevant error-causing widget was:
       expect(directive.codeSnippet, contains('Wrap('));
     });
 
-    test('detects Vertical RenderFlex overflow in Column with actionable directives', () {
+    test(
+        'detects Vertical RenderFlex overflow in Column with actionable directives',
+        () {
       const output = '''
 ══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY ╞═════════════════════════════════════════════════════════
 The following assertion was thrown during layout:
@@ -360,14 +385,16 @@ The relevant error-causing widget was:
       final directive = Heuristics.detect(output);
 
       expect(directive, isNotNull);
-      expect(directive!.category, equals(FailureCategory.renderFlexOverflowVertical));
+      expect(directive!.category,
+          equals(FailureCategory.renderFlexOverflowVertical));
       expect(directive.title, equals('RenderFlex Vertical Overflow'));
       expect(
         directive.actionableFixes.any((fix) => fix.contains('Expanded')),
         isTrue,
       );
       expect(
-        directive.actionableFixes.any((fix) => fix.contains('SingleChildScrollView')),
+        directive.actionableFixes
+            .any((fix) => fix.contains('SingleChildScrollView')),
         isTrue,
       );
       expect(
@@ -377,7 +404,9 @@ The relevant error-causing widget was:
       expect(directive.codeSnippet, contains('ListView'));
     });
 
-    test('detects Unbounded constraints in ListView with shrinkWrap and Expanded directives', () {
+    test(
+        'detects Unbounded constraints in ListView with shrinkWrap and Expanded directives',
+        () {
       const output = '''
 ══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY ╞═════════════════════════════════════════════════════════
 The following assertion was thrown during performResize():
@@ -391,17 +420,20 @@ The relevant error-causing widget was:
 
       expect(directive, isNotNull);
       expect(directive!.category, equals(FailureCategory.unboundedConstraints));
-      expect(directive.title, contains('Unbounded Viewport / ListView Constraints'));
+      expect(directive.title,
+          contains('Unbounded Viewport / ListView Constraints'));
       expect(
         directive.actionableFixes.any((fix) => fix.contains('Expanded')),
         isTrue,
       );
       expect(
-        directive.actionableFixes.any((fix) => fix.contains('shrinkWrap: true')),
+        directive.actionableFixes
+            .any((fix) => fix.contains('shrinkWrap: true')),
         isTrue,
       );
       expect(
-        directive.actionableFixes.any((fix) => fix.contains('NeverScrollableScrollPhysics')),
+        directive.actionableFixes
+            .any((fix) => fix.contains('NeverScrollableScrollPhysics')),
         isTrue,
       );
       expect(directive.codeSnippet, contains('shrinkWrap: true'));
@@ -424,13 +456,16 @@ pumpAndSettle timed out after 10:00.000000: Frame scheduled, but not rendered.
         isTrue,
       );
       expect(
-        directive.actionableFixes.any((fix) => fix.contains('CircularProgressIndicator')),
+        directive.actionableFixes
+            .any((fix) => fix.contains('CircularProgressIndicator')),
         isTrue,
       );
       expect(directive.codeSnippet, contains('await tester.pump('));
     });
 
-    test('detects MissingPluginException and formulates platform channel mock directives', () {
+    test(
+        'detects MissingPluginException and formulates platform channel mock directives',
+        () {
       const output = '''
 MissingPluginException(No implementation found for method getApplicationDocumentsDirectory on channel plugins.flutter.io/path_provider)
 ''';
@@ -441,24 +476,31 @@ MissingPluginException(No implementation found for method getApplicationDocument
       expect(directive!.category, equals(FailureCategory.missingPlugin));
       expect(directive.title, contains('MissingPluginException'));
       expect(
-        directive.actionableFixes.any((fix) => fix.contains('setMockMethodCallHandler')),
+        directive.actionableFixes
+            .any((fix) => fix.contains('setMockMethodCallHandler')),
         isTrue,
       );
       expect(
-        directive.actionableFixes.any((fix) => fix.contains('SharedPreferences.setMockInitialValues')),
+        directive.actionableFixes.any(
+            (fix) => fix.contains('SharedPreferences.setMockInitialValues')),
         isTrue,
       );
       expect(
         directive.codeSnippet,
-        contains('TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger'),
+        contains(
+            'TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger'),
       );
-      expect(directive.codeSnippet, contains('plugins.flutter.io/path_provider'));
-      expect(directive.codeSnippet, contains('getApplicationDocumentsDirectory'));
+      expect(
+          directive.codeSnippet, contains('plugins.flutter.io/path_provider'));
+      expect(
+          directive.codeSnippet, contains('getApplicationDocumentsDirectory'));
     });
   });
 
   group('End-to-End Processing (LoopBreaker.processOutput)', () {
-    test('parses location, selects heuristics, and trips circuit breaker after 3 runs', () {
+    test(
+        'parses location, selects heuristics, and trips circuit breaker after 3 runs',
+        () {
       final breaker = LoopBreaker();
 
       const failureLog = '''

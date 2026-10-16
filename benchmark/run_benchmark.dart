@@ -40,10 +40,10 @@ class PayloadMetrics {
   }
 
   Map<String, dynamic> toJson() => {
-    'characters': characters,
-    'lines': lines,
-    'tokens': tokens,
-  };
+        'characters': characters,
+        'lines': lines,
+        'tokens': tokens,
+      };
 }
 
 /// Reduction metrics comparing raw vs sanitized outputs.
@@ -60,7 +60,8 @@ class ReductionMetrics {
     required this.tokensSaved,
   });
 
-  factory ReductionMetrics.compute(PayloadMetrics raw, PayloadMetrics sanitized) {
+  factory ReductionMetrics.compute(
+      PayloadMetrics raw, PayloadMetrics sanitized) {
     double calcPct(int before, int after) {
       if (before == 0) return 0.0;
       return ((before - after) / before) * 100.0;
@@ -75,11 +76,11 @@ class ReductionMetrics {
   }
 
   Map<String, dynamic> toJson() => {
-    'charReductionPct': double.parse(charReductionPct.toStringAsFixed(2)),
-    'lineReductionPct': double.parse(lineReductionPct.toStringAsFixed(2)),
-    'tokenReductionPct': double.parse(tokenReductionPct.toStringAsFixed(2)),
-    'tokensSaved': tokensSaved,
-  };
+        'charReductionPct': double.parse(charReductionPct.toStringAsFixed(2)),
+        'lineReductionPct': double.parse(lineReductionPct.toStringAsFixed(2)),
+        'tokenReductionPct': double.parse(tokenReductionPct.toStringAsFixed(2)),
+        'tokensSaved': tokensSaved,
+      };
 }
 
 /// Result of an individual benchmark trial.
@@ -107,16 +108,16 @@ class BenchmarkTrialResult {
   double get processingTimeMs => processingTimeMicroseconds / 1000.0;
 
   Map<String, dynamic> toJson() => {
-    'scenarioName': scenarioName,
-    'category': category,
-    'raw': raw.toJson(),
-    'sanitized': sanitized.toJson(),
-    'reduction': reduction.toJson(),
-    'processingTimeMicroseconds': processingTimeMicroseconds,
-    'processingTimeMs': double.parse(processingTimeMs.toStringAsFixed(3)),
-    'guardrailTriggered': guardrailTriggered,
-    'consecutiveFailures': consecutiveFailures,
-  };
+        'scenarioName': scenarioName,
+        'category': category,
+        'raw': raw.toJson(),
+        'sanitized': sanitized.toJson(),
+        'reduction': reduction.toJson(),
+        'processingTimeMicroseconds': processingTimeMicroseconds,
+        'processingTimeMs': double.parse(processingTimeMs.toStringAsFixed(3)),
+        'guardrailTriggered': guardrailTriggered,
+        'consecutiveFailures': consecutiveFailures,
+      };
 }
 
 /// Synthetic fixtures producing exact realistic Flutter CLI emissions.
@@ -206,8 +207,7 @@ class SyntheticFixtures {
           'dart:async/zone.dart ${1000 + i}:25  _CustomZone.runUnary$i',
     ).join('\\n');
 
-    final fullStack =
-        'package:matcher/src/expect/expect.dart 136:31  fail\\n'
+    final fullStack = 'package:matcher/src/expect/expect.dart 136:31  fail\\n'
         'package:matcher/src/expect/expect.dart 123:3   _expect\\n'
         '$frameworkStack\\n'
         'test/calculator_test.dart 12:5                main.<anonymous closure>\\n'
@@ -267,7 +267,9 @@ class SyntheticFixtures {
     buffer.writeln('Analyzing enterprise_flutter_application...');
     for (int i = 1; i <= 50; i++) {
       final severity = i <= 2 ? 'ERROR' : (i <= 10 ? 'WARNING' : 'INFO');
-      final errType = i <= 2 ? 'COMPILE_TIME_ERROR_TYPE_CHECK' : 'STATIC_TYPE_WARNING_ANALYSIS';
+      final errType = i <= 2
+          ? 'COMPILE_TIME_ERROR_TYPE_CHECK'
+          : 'STATIC_TYPE_WARNING_ANALYSIS';
       buffer.writeln(
         '$severity|$errType|undefined_identifier_or_unused_import|packages/features/profile/lib/src/presentation/controllers/profile_view_controller_$i.dart|$i|5|10|The variable "temp$i" isn\'t used.',
       );
@@ -283,9 +285,12 @@ class BenchmarkRunner {
 
   /// Executes all benchmark scenarios.
   Future<void> runAll({bool runLiveCli = false}) async {
-    print('\n===================================================================================================');
-    print('                      FLUTTER SANITY MCP AUTOMATED BENCHMARK SUITE                                 ');
-    print('===================================================================================================\n');
+    print(
+        '\n===================================================================================================');
+    print(
+        '                      FLUTTER SANITY MCP AUTOMATED BENCHMARK SUITE                                 ');
+    print(
+        '===================================================================================================\n');
 
     // 1. Synthetic Fixture Benchmarks (Reproducible Baseline)
     _benchmarkRenderFlexOverflow();
@@ -407,11 +412,12 @@ class BenchmarkRunner {
       );
       sw.stop();
 
-      final guardrailLabel = decision.level == BreakerLevel.circuitBreakerTripped
-          ? 'CIRCUIT_BREAKER_TRIPPED (Halt Edit)'
-          : (decision.level == BreakerLevel.guardrailWarning
-              ? 'GUARDRAIL_WARNING (Directive Injected)'
-              : 'NORMAL');
+      final guardrailLabel =
+          decision.level == BreakerLevel.circuitBreakerTripped
+              ? 'CIRCUIT_BREAKER_TRIPPED (Halt Edit)'
+              : (decision.level == BreakerLevel.guardrailWarning
+                  ? 'GUARDRAIL_WARNING (Directive Injected)'
+                  : 'NORMAL');
 
       _recordResult(
         name: 'LoopBreaker Doom Loop - Attempt #$attempt',
@@ -429,7 +435,8 @@ class BenchmarkRunner {
     try {
       final cmd = io.Platform.isWindows ? 'flutter.bat' : 'flutter';
       final sw = Stopwatch()..start();
-      final result = await io.Process.run(cmd, ['test', '--machine', 'test/test_sanitizer_test.dart']);
+      final result = await io.Process.run(
+          cmd, ['test', '--machine', 'test/test_sanitizer_test.dart']);
       sw.stop();
 
       final rawStdout = result.stdout as String;
@@ -506,29 +513,39 @@ class BenchmarkRunner {
   // --- Output Formatters ---
 
   void _outputConsoleSummary() {
-    print('═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════');
-    print('                                FLUTTER SANITY MCP EMPIRICAL BENCHMARK RESULTS                                         ');
-    print('═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════');
-    print('${_pad("Scenario", 48)} | ${_pad("Raw Tok", 8)} | ${_pad("San Tok", 8)} | ${_pad("Reduction", 10)} | ${_pad("Overhead", 9)} | Guardrail');
-    print('-----------------------------------------------------------------------------------------------------------------------');
+    print(
+        '═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════');
+    print(
+        '                                FLUTTER SANITY MCP EMPIRICAL BENCHMARK RESULTS                                         ');
+    print(
+        '═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════');
+    print(
+        '${_pad("Scenario", 48)} | ${_pad("Raw Tok", 8)} | ${_pad("San Tok", 8)} | ${_pad("Reduction", 10)} | ${_pad("Overhead", 9)} | Guardrail');
+    print(
+        '-----------------------------------------------------------------------------------------------------------------------');
 
     for (final r in results) {
       final name = _pad(r.scenarioName, 48);
       final rawTok = _pad(r.raw.tokens.toString(), 8);
       final sanTok = _pad(r.sanitized.tokens.toString(), 8);
-      final redPct = _pad('${r.reduction.tokenReductionPct.toStringAsFixed(1)}%', 10);
+      final redPct =
+          _pad('${r.reduction.tokenReductionPct.toStringAsFixed(1)}%', 10);
       final timeStr = _pad('${r.processingTimeMs.toStringAsFixed(2)}ms', 9);
       final guardrail = r.guardrailTriggered ?? 'None';
 
       print('$name | $rawTok | $sanTok | $redPct | $timeStr | $guardrail');
     }
-    print('═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n');
+    print(
+        '═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n');
   }
 
   void _writeJsonReport() {
     final totalRawTokens = results.fold<int>(0, (sum, r) => sum + r.raw.tokens);
-    final totalSanitizedTokens = results.fold<int>(0, (sum, r) => sum + r.sanitized.tokens);
-    final overallSavingsPct = totalRawTokens == 0 ? 0.0 : ((totalRawTokens - totalSanitizedTokens) / totalRawTokens) * 100.0;
+    final totalSanitizedTokens =
+        results.fold<int>(0, (sum, r) => sum + r.sanitized.tokens);
+    final overallSavingsPct = totalRawTokens == 0
+        ? 0.0
+        : ((totalRawTokens - totalSanitizedTokens) / totalRawTokens) * 100.0;
 
     final jsonMap = {
       'metadata': {
@@ -542,7 +559,8 @@ class BenchmarkRunner {
         'totalRawTokens': totalRawTokens,
         'totalSanitizedTokens': totalSanitizedTokens,
         'totalTokensSaved': totalRawTokens - totalSanitizedTokens,
-        'overallTokenReductionPct': double.parse(overallSavingsPct.toStringAsFixed(2)),
+        'overallTokenReductionPct':
+            double.parse(overallSavingsPct.toStringAsFixed(2)),
       },
       'results': results.map((r) => r.toJson()).toList(),
     };
@@ -555,14 +573,16 @@ class BenchmarkRunner {
   void _outputMarkdownTables() {
     final sb = StringBuffer();
     sb.writeln('### 📊 Empirical Noise & Token Reduction Benchmark\n');
-    sb.writeln('| Scenario / Test Type | Raw Output | Sanitized Output | Token Savings | Processing Overhead | Guardrail Status |');
+    sb.writeln(
+        '| Scenario / Test Type | Raw Output | Sanitized Output | Token Savings | Processing Overhead | Guardrail Status |');
     sb.writeln('| :--- | :--- | :--- | :--- | :--- | :--- |');
 
     for (final r in results) {
       final rawCol = '${r.raw.tokens} tok (${r.raw.lines} lines)';
-      final sanCol = '**${r.sanitized.tokens} tok** (${r.sanitized.lines} lines)';
+      final sanCol =
+          '**${r.sanitized.tokens} tok** (${r.sanitized.lines} lines)';
       final redCol = '**${r.reduction.tokenReductionPct.toStringAsFixed(1)}%**';
-      
+
       String guard;
       if (r.guardrailTriggered == null) {
         guard = '`Signal Pass`';
@@ -574,7 +594,8 @@ class BenchmarkRunner {
         guard = '`⚠️ ${r.guardrailTriggered}`';
       }
 
-      sb.writeln('| ${r.scenarioName} | $rawCol | $sanCol | $redCol | ${r.processingTimeMs.toStringAsFixed(2)} ms | $guard |');
+      sb.writeln(
+          '| ${r.scenarioName} | $rawCol | $sanCol | $redCol | ${r.processingTimeMs.toStringAsFixed(2)} ms | $guard |');
     }
 
     print('\n📋 Markdown Table Ready for README.md & Launch:\n');

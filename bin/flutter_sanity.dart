@@ -70,22 +70,26 @@ Future<void> _runDoctor() async {
 
   // Check Dart SDK
   try {
-    final dartRes = await io.Process.run(io.Platform.isWindows ? 'dart.bat' : 'dart', ['--version']);
-    io.stdout.writeln('[✓] Dart SDK: ${(dartRes.stdout.toString() + dartRes.stderr.toString()).trim()}');
+    final dartRes = await io.Process.run(
+        io.Platform.isWindows ? 'dart.bat' : 'dart', ['--version']);
+    io.stdout.writeln(
+        '[✓] Dart SDK: ${(dartRes.stdout.toString() + dartRes.stderr.toString()).trim()}');
   } catch (_) {
     io.stdout.writeln('[✗] Dart SDK not found in PATH');
   }
 
   // Check Flutter SDK
   try {
-    final flutterRes = await io.Process.run(io.Platform.isWindows ? 'flutter.bat' : 'flutter', ['--version']);
+    final flutterRes = await io.Process.run(
+        io.Platform.isWindows ? 'flutter.bat' : 'flutter', ['--version']);
     final firstLine = (flutterRes.stdout.toString()).split('\n').first.trim();
     io.stdout.writeln('[✓] Flutter SDK: $firstLine');
   } catch (_) {
     io.stdout.writeln('[✗] Flutter SDK not found in PATH');
   }
 
-  io.stdout.writeln('\nRun "flutter_sanity setup" to install or update editor integrations.');
+  io.stdout.writeln(
+      '\nRun "flutter_sanity setup" to install or update editor integrations.');
 }
 
 Future<void> _runTestCli(List<String> args) async {
