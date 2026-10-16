@@ -6,6 +6,7 @@
 [![Dart](https://img.shields.io/badge/Dart-3.5+-0175C2.svg?logo=dart&style=flat-square)](https://dart.dev)
 [![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B.svg?logo=flutter&style=flat-square)](https://flutter.dev)
 [![MCP Protocol](https://img.shields.io/badge/MCP-2024--11--05-blue.svg?style=flat-square)](https://modelcontextprotocol.io)
+[![CI](https://github.com/Frtspr/flutter-sanity-mcp/actions/workflows/ci.yml/badge.svg?style=flat-square)](https://github.com/Frtspr/flutter-sanity-mcp/actions/workflows/ci.yml)
 [![Tests](https://img.shields.io/badge/Tests-60%2F60%20Passing-brightgreen.svg?style=flat-square)](https://github.com/Frtspr/flutter-sanity-mcp)
 [![Token Savings](https://img.shields.io/badge/Token%20Savings-96.8%25-success.svg?style=flat-square)](#-empirical-benchmark--doom-loop-prevention)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
