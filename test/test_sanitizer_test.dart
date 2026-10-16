@@ -300,8 +300,8 @@ void main() {
       const rawStack = '''
 #0      SomeFramework.call (package:flutter/src/widgets/framework.dart:100:12)
 #1      MyService.fetch (package:my_app/services/api.dart:45:10)
-#2      main.<anonymous closure> (C:\\Users\\FIRAT ISPIR\\projects\\app\\test\\unit_test.dart:50:5)
-#3      testHelper (file:///C:/Users/FIRAT%20ISPIR/projects/app/test/helper.dart:15:3)
+#2      main.<anonymous closure> (C:\\Users\\Developer\\projects\\app\\test\\unit_test.dart:50:5)
+#3      testHelper (file:///C:/Users/Developer/projects/app/test/helper.dart:15:3)
 #4      Zone.run (dart:async/zone.dart:1000:20)
 #5      TestCompat.run (package:test_api/src/backend/invoker.dart:200:10)
 ''';
